@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Ashish & Shweta | Royal Engagement Invitation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* TYPOGRAPHY */
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #1A050B;
+            color: #4A121E;
+            overflow-x: hidden;
+        }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-script { font-family: 'Alex Brush', cursive; line-height: 1.1; display: block; padding: 0.2em 0; margin-top: -0.1em; }
+        .font-hindi { font-family: 'Noto Serif Devanagari', serif; line-height: 1.2; display: inline-block; padding-top: 0.16em; margin-top: 0; overflow: visible; box-sizing: border-box; text-rendering: optimizeLegibility; }
+        .font-elegant {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-style: italic;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* LANGUAGE TOGGLE LOGIC */
+        body.lang-english .lang-hi { display: none !important; }
+        body.lang-hindi .lang-en { display: none !important; }
+
+        /* SHIMMER TEXT */
+        .text-gold-shimmer {
+            background: linear-gradient(110deg, #f3e5ab 0%, #d4af37 35%, #fff8dc 50%, #c59b27 65%, #f3e5ab 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: goldShimmer 6s linear infinite;
+        }
+        @keyframes goldShimmer { to { background-position: 200% center; } }
+
+        /* ENVELOPE 3D ANIMATIONS */
+        .envelope-stage { perspective: 1400px; }
+        .envelope-3d-wrapper { transform-style: preserve-3d; transition: all 1s ease; }
+        .envelope-hover-float { animation: gentleFloat 4.5s ease-in-out infinite; }
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px) rotateX(4deg); }
+            50% { transform: translateY(-8px) rotateX(7deg); }
+        }
+        .envelope-opened-shift { transform: translateY(36px) scale(0.95); }
+        
+        .envelope-top-flap {
+            transform-style: preserve-3d;
+            transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.35s;
+            transform-origin: top;
+        }
+        .flap-rotated-open { transform: rotateX(180deg); z-index: 5 !important; }
+
+        .invitation-card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.9s ease;
+        }
+        .card-stage-idle { transform: translateY(0) translateZ(2px) scale(0.94); z-index: 10; }
+        .card-stage-slide-up { transform: translateY(-68%) translateZ(20px) scale(0.98); z-index: 25; }
+        .card-stage-forward { transform: translateY(-22%) translateZ(90px) scale(1.06); z-index: 40; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65); }
+
+        .gatefold-left, .gatefold-right { transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1); }
+        .gatefold-left { transform-origin: left center; }
+        .gatefold-right { transform-origin: right center; }
+        .gatefold-left.gatefold-open { transform: rotateY(-135deg); opacity: 0; }
+        .gatefold-right.gatefold-open { transform: rotateY(135deg); opacity: 0; }
+
+        /* LUXURY PAPER TEXTURE */
+        .luxury-paper-card {
+            background-image: radial-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* VENUE BACKGROUND */
+        .venue-bg {
+            background-image: url('image_70ba99.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+    </style>
+</head>
+<body class="lang-english">
+
+    <!-- TOP CONTROLS -->
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
+        <!-- AUDIO TOGGLE -->
+        <button id="music-btn" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#2C0B14]/90 backdrop-blur-md border border-[#D4AF37]/50 shadow-lg text-[#F3E5AB] transition-all hover:bg-[#D4AF37] hover:text-[#230B11]" onclick="toggleMusic()">
+            <svg id="music-icon-on" class="h-4 w-4 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            <svg id="music-icon-off" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+        </button>
+
+        <!-- LANGUAGE TOGGLE -->
+        <div class="flex items-center gap-1 bg-[#2C0B14]/90 backdrop-blur-md rounded-full p-1 border border-[#D4AF37]/50 shadow-lg">
+            <button id="lang-en-btn" class="px-3 py-1 rounded-full text-xs font-bold transition-all bg-[#D4AF37] text-[#230B11]" onclick="setLanguage('english')">EN</button>
+            <button id="lang-hi-btn" class="px-3 py-1 rounded-full text-xs font-bold transition-all text-[#F3E5AB] hover:bg-white/10" onclick="setLanguage('hindi')">HI</button>
+        </div>
+    </div>
+
+    <!-- AUDIO ELEMENT -->
+    <audio id="bgMusic" src="Laththe_Di_Chadar_3.mp3" preload="auto"></audio>
+
+    <!-- SCENE 1 & 2: WELCOME & ENVELOPE -->
+    <section class="relative min-h-screen w-full overflow-hidden bg-[#1D080E] text-[#FAF6F0] flex flex-col items-center justify-between py-6 px-4 sm:py-10 sm:px-6 select-none">
+        
+        <!-- Background -->
+        <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+            <video class="h-full w-full object-cover opacity-35 mix-blend-screen" src="https://assets.mixkit.co/videos/preview/mixkit-golden-particles-floating-in-the-air-42641-large.mp4" autoplay loop muted playsinline></video>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#1A060B]/80 via-[#2B0B13]/45 to-[#1A060B]/90"></div>
+        </div>
+
+        <header class="relative z-10 flex flex-col items-center text-center pt-8">
+            <div class="mb-2 flex flex-col items-center">
+                <svg class="h-9 w-9 text-[#D4AF37] drop-shadow-[0_2px_10px_rgba(212,175,55,0.5)]" viewBox="0 0 64 64" fill="none">
+                    <circle cx="32" cy="32" r="29" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" />
+                    <path d="M32 14C26 14 23 19 25 24C27 28 33 27 33 33C33 38 27 40 25 36M32 14C37 14 40 18 39 23C38 27 33 28 33 34C33 41 37 45 42 42M24 22C20 22 18 26 20 30C22 33 26 32 26 32M27 46C30 48 35 48 38 46" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                    <circle cx="32" cy="10" r="2" fill="currentColor" />
+                </svg>
+                <p class="mt-1 font-hindi text-xs sm:text-sm tracking-[0.22em] text-[#F3E5AB]/95">॥ श्री गणेशाय नमः ॥</p>
+            </div>
+            
+            <div class="max-w-2xl px-2 py-2 overflow-visible">
+                <p class="lang-en text-[11px] sm:text-xs uppercase tracking-[0.35em] text-[#E6C665] font-cinzel font-semibold mb-1.5">An Invitation to Celebrate Love</p>
+                <h1 class="lang-en font-script text-4xl sm:text-5xl md:text-6xl font-normal tracking-wide text-gold-shimmer leading-tight mb-2 py-1">Two Hearts, One Beautiful Beginning</h1>
+                
+                <p class="lang-hi text-[11px] sm:text-xs uppercase tracking-[0.35em] text-[#E6C665] font-hindi font-medium mb-1.5">प्रेम और विश्वास का उत्सव</p>
+                <h1 class="lang-hi font-hindi text-3xl sm:text-4xl md:text-5xl font-medium tracking-wide text-gold-shimmer leading-tight mb-2 py-1">दो दिलों का पावन संगम</h1>
+            </div>
+        </header>
+
+        <!-- 3D ENVELOPE -->
+        <div class="relative z-10 my-4 flex w-full max-w-lg flex-col items-center justify-center">
+            <div id="envelope-stage" class="envelope-stage relative w-[310px] h-[230px] sm:w-[430px] sm:h-[305px] cursor-pointer" onclick="openEnvelope()">
+                <div class="pointer-events-none absolute -inset-6 rounded-3xl bg-gradient-to-r from-[#D4AF37]/20 via-[#F3E5AB]/30 to-[#D4AF37]/20 blur-2xl transition-opacity duration-1000 opacity-60" id="envelope-glow"></div>
+                
+                <div id="envelope-wrapper" class="envelope-3d-wrapper relative h-full w-full envelope-hover-float">
+                    <!-- ENVELOPE BACK -->
+                    <div class="absolute inset-0 rounded-xl border border-[#D4AF37]/60 bg-gradient-to-br from-[#631727] via-[#4A101D] to-[#330912] shadow-[0_25px_60px_rgba(0,0,0,0.75)]"></div>
+                    
+                    <!-- THE CARD -->
+                    <div id="invitation-card" class="invitation-card-3d absolute left-3 right-3 top-3 bottom-3 rounded-lg border-2 border-[#D4AF37] bg-gradient-to-b from-[#FFFDF9] via-[#FAF6F0] to-[#F3E9D8] text-[#4A121E] shadow-2xl flex flex-col items-center justify-between p-3.5 text-center card-stage-idle">
+                        <div class="w-full">
+                            <p class="font-hindi text-[10px] sm:text-xs text-[#8C2338] tracking-widest">॥ शुभ सगाई निमंत्रण ॥</p>
+                        </div>
+                        <div class="my-auto py-1 w-full">
+                            <h2 class="lang-en font-script text-4xl text-[#5A1827]">Ashish Yadav</h2>
+                            <h2 class="lang-hi font-hindi text-3xl font-semibold text-[#5A1827]">आशीष यादव</h2>
+                            <div class="my-1.5 flex items-center justify-center gap-3">
+                                <span class="h-[1px] w-10 bg-[#D4AF37]"></span>
+                                <span class="font-cinzel text-xl text-[#B38728]">&amp;</span>
+                                <span class="h-[1px] w-10 bg-[#D4AF37]"></span>
+                            </div>
+                            <h2 class="lang-en font-script text-4xl text-[#5A1827]">Shweta Yadav</h2>
+                            <h2 class="lang-hi font-hindi text-3xl font-semibold text-[#5A1827]">श्वेता यादव</h2>
+                        </div>
+                        
+                        <!-- Gatefold Doors -->
+                        <div id="gatefold-left" class="gatefold-left pointer-events-none absolute inset-y-0 left-0 w-1/2 rounded-l-lg border-r border-[#D4AF37] bg-gradient-to-br from-[#FAF3E6] to-[#EADBC2] flex items-center justify-end pr-2 shadow-md">
+                            <span class="font-cinzel text-lg text-[#B38728] opacity-60">A</span>
+                        </div>
+                        <div id="gatefold-right" class="gatefold-right pointer-events-none absolute inset-y-0 right-0 w-1/2 rounded-r-lg border-l border-[#D4AF37] bg-gradient-to-bl from-[#FAF3E6] to-[#EADBC2] flex items-center justify-start pl-2 shadow-md">
+                            <span class="font-cinzel text-lg text-[#B38728] opacity-60">S</span>
+                        </div>
+                    </div>
+
+                    <!-- ENVELOPE FRONT FLAPS -->
+                    <div id="front-flaps" class="pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-xl transition-opacity duration-700">
+                        <svg class="h-full w-full" viewBox="0 0 430 305" preserveAspectRatio="none">
+                            <polygon points="0,0 215,165 0,305" fill="#4F111E" stroke="#D4AF37" stroke-width="1.5" />
+                            <polygon points="430,0 215,165 430,305" fill="#4F111E" stroke="#D4AF37" stroke-width="1.5" />
+                            <polygon points="0,305 215,152 430,305" fill="#781D31" stroke="#D4AF37" stroke-width="2" />
+                        </svg>
+                    </div>
+
+                    <!-- TOP FLAP & SEAL -->
+                    <div id="top-flap" class="envelope-top-flap absolute inset-x-0 top-0 z-30 h-[58%]">
+                        <svg class="h-full w-full drop-shadow-[0_10px_15px_rgba(0,0,0,0.45)]" viewBox="0 0 430 180" preserveAspectRatio="none">
+                            <polygon points="0,0 215,172 430,0" fill="#7E1E33" stroke="#D4AF37" stroke-width="2.2" />
+                        </svg>
+                        <div id="wax-seal" class="absolute left-1/2 bottom-1 -translate-x-1/2 translate-y-1/2 flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#FFF2CC] bg-gradient-to-br from-[#F5E19C] via-[#D4AF37] to-[#8F6814] shadow-[0_6px_20px_rgba(0,0,0,0.6)] transition-transform duration-500">
+                            <span class="font-cinzel text-sm font-bold text-[#3B0B16]">A & S</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="relative z-10 flex flex-col items-center text-center pb-8" id="open-cta">
+            <button class="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-[#F3E5AB] bg-gradient-to-r from-[#8C2338] via-[#661626] to-[#8C2338] px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.22em] text-[#FFFDF9] shadow-[0_0_30px_rgba(212,175,55,0.45)] transition-all hover:scale-105 active:scale-95" onclick="openEnvelope()">
+                <span>TAP TO OPEN YOUR INVITATION</span>
+            </button>
+        </footer>
+    </section>
+
+    <!-- SCENE 3: MAIN CARD -->
+    <section id="scene-main-card" class="relative py-16 px-4 sm:py-24 bg-gradient-to-b from-[#230911] via-[#4A101D] to-[#230911] hidden">
+        <div class="mx-auto max-w-3xl">
+            <div class="luxury-paper-card relative overflow-hidden rounded-3xl border-[3px] border-[#D4AF37] bg-[#FFFDF9] p-2 text-center shadow-[0_25px_70px_rgba(90,24,39,0.4)]">
+                <div class="relative h-full w-full rounded-2xl border-4 border-[#8C2338] p-6 sm:p-12">
+                    <span class="font-hindi text-sm text-[#7A1C2E] tracking-widest">॥ श्री गणेशाय नमः ॥</span>
+                    
+                    <p class="lang-en font-script text-3xl sm:text-4xl text-[#6E4720] mt-6">With the blessings of our families</p>
+                    <p class="lang-en mt-2 text-xs uppercase tracking-[0.22em] text-[#5A1827] font-cinzel font-semibold">We joyfully invite you to celebrate the engagement ceremony of</p>
+                    
+                    <p class="lang-hi font-hindi text-xl text-[#6E4720] font-medium mt-6">हमारे परिवारों के शुभाशीर्वाद सहित</p>
+                    <p class="lang-hi mt-2 text-sm text-[#7A1C2E] font-hindi">हम आपको सगाई के पावन उत्सव में सादर आमंत्रित करते हैं</p>
+
+                    <!-- ORNAMENTAL DIVIDER (Replaced Image) -->
+                    <div class="my-10 flex items-center justify-center">
+                        <svg class="h-10 w-10 text-[#C59B27] opacity-80" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 4C13 9 11 13 11 17C11 20 13.2 22 16 22C18.8 22 21 20 21 17C21 13 19 9 16 4ZM9 11C6 14 5 18 7 21C8.5 23 11 23.5 13 22.5C10 20 9 16 9 11ZM23 11C23 16 22 20 19 22.5C21 23.5 23.5 23 25 21C27 18 26 14 23 11ZM6 24C10 26 22 26 26 24C22 28 10 28 6 24Z" />
+                        </svg>
+                    </div>
+
+                    <div class="mt-4">
+                        <h2 class="lang-en font-script text-6xl text-[#8C2338]">Ashish Yadav</h2>
+                        <h2 class="lang-hi font-hindi text-5xl font-bold text-[#8C2338]">आशीष यादव</h2>
+                        <p class="lang-en mt-2 text-[0.7rem] sm:text-xs text-[#5A1827] font-elegant tracking-[0.18em] uppercase">B.Tech, Software Engineer, TCS</p>
+                        <p class="lang-hi mt-2 text-xs sm:text-sm text-[#5A1827] font-hindi">बी.टेक, सॉफ्टवेयर इंजीनियर, TCS</p>
+                    </div>
+
+                    <div class="my-3 flex items-center justify-center gap-4">
+                        <span class="h-[2px] w-14 bg-gradient-to-r from-transparent via-[#D4AF37] to-[#B38728]"></span>
+                        <div class="flex h-14 w-14 items-center justify-center rounded-full border-2 border-[#D4AF37] bg-gradient-to-br from-[#FFFDF9] to-[#FAF3E6]">
+                            <span class="font-cinzel text-2xl text-[#8C2338]">&amp;</span>
+                        </div>
+                        <span class="h-[2px] w-14 bg-gradient-to-l from-transparent via-[#D4AF37] to-[#B38728]"></span>
+                    </div>
+
+                    <div class="mb-6">
+                        <h2 class="lang-en font-script text-6xl text-[#8C2338]">Shweta Yadav</h2>
+                        <h2 class="lang-hi font-hindi text-5xl font-bold text-[#8C2338]">श्वेता यादव</h2>
+                        <p class="lang-en mt-2 text-[0.7rem] sm:text-xs text-[#5A1827] font-elegant tracking-[0.18em] uppercase">M.Pharma, Ph.D. (Pursuing)</p>
+                        <p class="lang-hi mt-2 text-xs sm:text-sm text-[#5A1827] font-hindi">एम.फार्मा, पीएच.डी. (अध्ययनरत)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 4: SCRATCH TO REVEAL -->
+    <section id="scene-scratch-date" class="relative py-16 px-4 bg-gradient-to-b from-[#F5ECE0] via-[#EFE4D2] to-[#FAF6F0] hidden">
+        <div class="mx-auto max-w-2xl text-center">
+            <h2 class="lang-en font-cinzel text-2xl sm:text-3xl text-[#4A121E] font-semibold">Scratch to Reveal Our Special Day</h2>
+            <h2 class="lang-hi font-hindi text-2xl sm:text-3xl text-[#4A121E] font-semibold">अपना विशेष दिन जानने के लिए स्क्रैच करें</h2>
+            
+            <div class="relative mx-auto mt-8 w-full max-w-[400px] rounded-3xl border-2 border-[#D4AF37] bg-gradient-to-b from-[#FFFDF9] to-[#FAF3E6] p-4 shadow-xl">
+                <div id="scratch-container" class="relative h-[150px] w-full overflow-hidden rounded-2xl flex items-center justify-center bg-[#5A1827]">
+                    
+                    <!-- HIDDEN DATE (Day, Month, Year) -->
+                    <div id="revealed-date" class="absolute inset-0 flex items-center justify-center gap-3 p-4 transition-transform duration-700 scale-95">
+                        <div class="flex flex-1 h-full flex-col items-center justify-center rounded-xl border border-[#D4AF37]/50 bg-[#8C2338] text-white">
+                            <span class="lang-en text-[10px] uppercase tracking-widest text-[#F3E5AB]">Date</span>
+                            <span class="lang-hi text-[10px] uppercase tracking-widest text-[#F3E5AB]">दिन</span>
+                            <span class="font-cinzel text-4xl font-bold">05</span>
+                        </div>
+                        <div class="flex flex-1 h-full flex-col items-center justify-center rounded-xl border border-[#D4AF37]/50 bg-[#8C2338] text-white">
+                            <span class="lang-en text-[10px] uppercase tracking-widest text-[#F3E5AB]">Month</span>
+                            <span class="lang-hi text-[10px] uppercase tracking-widest text-[#F3E5AB]">माह</span>
+                            <span class="font-cinzel text-3xl font-bold">DEC</span>
+                        </div>
+                        <div class="flex flex-1 h-full flex-col items-center justify-center rounded-xl border border-[#D4AF37]/50 bg-[#8C2338] text-white">
+                            <span class="lang-en text-[10px] uppercase tracking-widest text-[#F3E5AB]">Year</span>
+                            <span class="lang-hi text-[10px] uppercase tracking-widest text-[#F3E5AB]">साल</span>
+                            <span class="font-cinzel text-3xl font-bold">2026</span>
+                        </div>
+                    </div>
+
+                    <!-- CANVAS OVERLAY -->
+                    <canvas id="scratch-canvas" class="absolute inset-0 z-20 h-full w-full cursor-pointer touch-none transition-opacity duration-700"></canvas>
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <button id="reveal-btn" onclick="revealDate()" class="lang-en px-4 py-2 rounded-full border border-[#D4AF37] bg-[#FAF3E6] text-xs font-semibold text-[#5A1827] hover:bg-[#D4AF37]">✨ Reveal Date</button>
+                    <button id="reveal-btn-hi" onclick="revealDate()" class="lang-hi px-4 py-2 rounded-full border border-[#D4AF37] bg-[#FAF3E6] text-xs font-semibold text-[#5A1827] hover:bg-[#D4AF37]">✨ तिथि देखें</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 5: COUNTDOWN -->
+    <section id="scene-countdown" class="relative py-16 px-4 bg-gradient-to-b from-[#3A0C18] to-[#1A050B] text-[#FAF6F0] hidden">
+        <div class="relative z-10 mx-auto max-w-4xl text-center">
+            <h2 class="lang-en font-script text-5xl text-gold-shimmer">Until Our Celebration Begins</h2>
+            <h2 class="lang-hi font-hindi pt-1 text-4xl text-gold-shimmer">सगाई की मधुर प्रतीक्षा</h2>
+
+            <div class="mt-10 grid grid-cols-4 gap-3 sm:gap-6 max-w-2xl mx-auto">
+                <div class="rounded-2xl border border-[#D4AF37]/70 bg-[#290810]/95 p-4 shadow-lg">
+                    <div id="cd-days" class="font-cinzel text-3xl sm:text-5xl font-bold text-[#F3E5AB]">00</div>
+                    <div class="lang-en text-[10px] uppercase text-[#D4AF37] mt-1">Days</div>
+                    <div class="lang-hi text-[10px] uppercase text-[#D4AF37] mt-1">दिन</div>
+                </div>
+                <div class="rounded-2xl border border-[#D4AF37]/70 bg-[#290810]/95 p-4 shadow-lg">
+                    <div id="cd-hours" class="font-cinzel text-3xl sm:text-5xl font-bold text-[#F3E5AB]">00</div>
+                    <div class="lang-en text-[10px] uppercase text-[#D4AF37] mt-1">Hours</div>
+                    <div class="lang-hi text-[10px] uppercase text-[#D4AF37] mt-1">घंटे</div>
+                </div>
+                <div class="rounded-2xl border border-[#D4AF37]/70 bg-[#290810]/95 p-4 shadow-lg">
+                    <div id="cd-minutes" class="font-cinzel text-3xl sm:text-5xl font-bold text-[#F3E5AB]">00</div>
+                    <div class="lang-en text-[10px] uppercase text-[#D4AF37] mt-1">Mins</div>
+                    <div class="lang-hi text-[10px] uppercase text-[#D4AF37] mt-1">मिनट</div>
+                </div>
+                <div class="rounded-2xl border border-[#D4AF37]/70 bg-[#290810]/95 p-4 shadow-lg">
+                    <div id="cd-seconds" class="font-cinzel text-3xl sm:text-5xl font-bold text-[#E6C665]">00</div>
+                    <div class="lang-en text-[10px] uppercase text-[#D4AF37] mt-1">Secs</div>
+                    <div class="lang-hi text-[10px] uppercase text-[#D4AF37] mt-1">सेकंड</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 5.5: CEREMONY ITINERARY -->
+    <section id="scene-itinerary" class="relative py-16 px-4 bg-[#FAF6F0] text-[#4A121E] hidden border-y-2 border-[#D4AF37]/40">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="lang-en font-cinzel text-3xl text-[#5A1827] font-semibold mb-8">Ceremony Itinerary</h2>
+            <h2 class="lang-hi font-hindi text-3xl text-[#5A1827] font-semibold mb-8">कार्यक्रम विवरण</h2>
+            
+            <div class="relative border-l-2 border-[#D4AF37] ml-4 sm:ml-1/2 pl-6 sm:pl-0 sm:flex sm:flex-col sm:items-center space-y-8">
+                <!-- Event 1 -->
+                <div class="relative w-full sm:flex sm:items-center sm:justify-between">
+                    <div class="hidden sm:block w-5/12 text-right pr-8">
+                        <p class="font-cinzel text-xl text-[#8C2338] font-bold">6:45 PM</p>
+                    </div>
+                    <div class="absolute -left-[35px] sm:left-1/2 sm:-ml-[10px] h-5 w-5 rounded-full bg-[#D4AF37] border-4 border-[#FAF6F0]"></div>
+                    <div class="w-full sm:w-5/12 text-left sm:pl-8">
+                        <p class="sm:hidden font-cinzel text-lg text-[#8C2338] font-bold mb-1">6:45 PM</p>
+                        <h3 class="lang-en font-bold text-lg text-[#4A121E]">Welcome & Refreshment</h3>
+                        <h3 class="lang-hi font-hindi font-bold text-lg text-[#4A121E]">स्वागत एवं Refreshment</h3>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="relative w-full sm:flex sm:items-center sm:justify-between">
+                    <div class="hidden sm:block w-5/12 text-right pr-8">
+                        <p class="font-cinzel text-xl text-[#8C2338] font-bold">7:30 PM</p>
+                    </div>
+                    <div class="absolute -left-[35px] sm:left-1/2 sm:-ml-[10px] h-5 w-5 rounded-full bg-[#D4AF37] border-4 border-[#FAF6F0]"></div>
+                    <div class="w-full sm:w-5/12 text-left sm:pl-8">
+                        <p class="sm:hidden font-cinzel text-lg text-[#8C2338] font-bold mb-1">7:30 PM</p>
+                        <h3 class="lang-en font-bold text-lg text-[#4A121E]">Refreshment</h3>
+                        <h3 class="lang-hi font-hindi font-bold text-lg text-[#4A121E]">रिफ्रेशमेंट</h3>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="relative w-full sm:flex sm:items-center sm:justify-between">
+                    <div class="hidden sm:block w-5/12 text-right pr-8">
+                        <p class="font-cinzel text-xl text-[#8C2338] font-bold">8:30 PM</p>
+                    </div>
+                    <div class="absolute -left-[35px] sm:left-1/2 sm:-ml-[10px] h-5 w-5 rounded-full bg-[#D4AF37] border-4 border-[#FAF6F0]"></div>
+                    <div class="w-full sm:w-5/12 text-left sm:pl-8">
+                        <p class="sm:hidden font-cinzel text-lg text-[#8C2338] font-bold mb-1">8:30 PM</p>
+                        <h3 class="lang-en font-bold text-lg text-[#4A121E]">Ring Ceremony</h3>
+                        <h3 class="lang-hi font-hindi font-bold text-lg text-[#4A121E]">रिंग सेरेमनी</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 6: FAMILY -->
+    <section id="scene-family" class="relative py-16 px-4 bg-[#FFFDF9] text-[#4A121E] hidden">
+        <div class="mx-auto max-w-5xl">
+            <div class="text-center mb-8">
+                <h2 class="lang-en font-script text-5xl text-[#5A1827]">With the Blessings of Our Families</h2>
+                <h2 class="lang-hi font-hindi text-4xl text-[#5A1827]">स्नेही स्वजन एवं परिवार का आशीर्वाद</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- GROOM SIDE -->
+                <div class="rounded-3xl border-2 border-[#D4AF37]/80 p-6 text-center shadow-lg bg-[#FAF6F0]">
+                    <span class="lang-en rounded-full bg-[#5A1827] px-4 py-1 text-[11px] uppercase text-[#F3E5AB]">Groom's Family</span>
+                    <span class="lang-hi rounded-full bg-[#5A1827] px-4 py-1 text-[11px] uppercase text-[#F3E5AB]">वर पक्ष</span>
+                    <h3 class="lang-en mt-4 font-cinzel font-semibold text-lg text-[#8C2338]">With the divine blessings of our revered grandparents, parents & family elders</h3>
+                    <h3 class="lang-hi mt-4 font-hindi font-semibold text-lg text-[#8C2338]">पूज्य दादा-दादी, माता-पिता एवं समस्त वरिष्ठजनों के शुभाशीर्वाद से</h3>
+                    
+                    <div class="mt-6 border-t border-[#D4AF37]/40 pt-4">
+                        <p class="lang-en text-xs uppercase tracking-widest text-[#6E4720] mb-1">Parents</p>
+                        <p class="lang-hi text-xs uppercase tracking-widest text-[#6E4720] mb-1">माता-पिता</p>
+                        <p class="lang-en font-cinzel text-lg sm:text-2xl font-bold leading-tight tracking-wide">Smt. Shardra Devi & Shri Dayaram Yadav</p>
+                        <p class="lang-hi font-hindi text-lg sm:text-2xl font-bold leading-relaxed tracking-wide">श्रीमती शारद्रा देवी एवं श्री दयाराम यादव</p>
+                    </div>
+                </div>
+
+                <!-- BRIDE SIDE -->
+                <div class="rounded-3xl border-2 border-[#D4AF37]/80 p-6 text-center shadow-lg bg-[#FAF6F0]">
+                    <span class="lang-en rounded-full bg-[#7A1C2E] px-4 py-1 text-[11px] uppercase text-[#F3E5AB]">Bride's Family</span>
+                    <span class="lang-hi rounded-full bg-[#7A1C2E] px-4 py-1 text-[11px] uppercase text-[#F3E5AB]">वधु पक्ष</span>
+                    <h3 class="lang-en mt-4 font-cinzel font-semibold text-lg text-[#8C2338]">With the divine blessings of our revered grandparents, parents & family elders</h3>
+                    <h3 class="lang-hi mt-4 font-hindi font-semibold text-lg text-[#8C2338]">पूज्य दादा-दादी, माता-पिता एवं समस्त वरिष्ठजनों के शुभाशीर्वाद से</h3>
+                    
+                    <div class="mt-6 border-t border-[#D4AF37]/40 pt-4">
+                        <p class="lang-en text-xs uppercase tracking-widest text-[#6E4720] mb-1">Parents</p>
+                        <p class="lang-hi text-xs uppercase tracking-widest text-[#6E4720] mb-1">माता-पिता</p>
+                        <p class="lang-en font-cinzel text-lg sm:text-2xl font-bold leading-tight tracking-wide">Smt. Shyamlta Devi & Shri Dr. Jitendra Yadav</p>
+                        <p class="lang-hi font-hindi text-lg sm:text-2xl font-bold leading-relaxed tracking-wide">श्रीमती श्यामलता देवी एवं श्री डॉ. जितेन्द्र यादव</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 7: VENUE -->
+    <section id="scene-venue" class="relative py-24 px-4 venue-bg hidden">
+        <div class="absolute inset-0 bg-[#3B0C18]/85 backdrop-blur-sm"></div>
+        <div class="relative z-10 mx-auto max-w-3xl text-center text-[#FAF6F0]">
+            <div class="rounded-3xl border-2 border-[#D4AF37] bg-black/40 p-8 sm:p-14 shadow-2xl backdrop-blur-md">
+                <p class="lang-en text-xs uppercase tracking-[0.35em] text-[#E6C665] font-semibold mb-4">Engagement Venue</p>
+                <p class="lang-hi text-xs uppercase tracking-[0.35em] text-[#E6C665] font-semibold mb-4">सगाई स्थल</p>
+                <h2 class="font-cinzel text-4xl sm:text-5xl font-semibold text-gold-shimmer">Hotel Shri Kunj</h2>
+                <p class="lang-en mt-2 text-lg sm:text-xl font-medium tracking-wider">Azamgarh, Uttar Pradesh, India</p>
+                <p class="lang-hi mt-2 text-lg sm:text-xl font-medium tracking-wider font-hindi">आजमगढ़, उत्तर प्रदेश, भारत</p>
+
+                <div class="mt-8">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Shri+Kunj+Azamgarh+Uttar+Pradesh" target="_blank" class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#C59B27] px-8 py-3 text-sm font-bold uppercase text-[#2B0A13] shadow-lg hover:scale-105 transition">
+                        📍 Get Directions
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENE 8: CLOSING -->
+    <footer id="scene-closing" class="relative bg-[#1A050B] py-20 px-4 text-center text-[#FAF6F0] hidden">
+        <h2 class="lang-en font-script text-4xl text-[#FFFDF9]">Your Presence Will Make Our Celebration More Special</h2>
+        <h2 class="lang-hi font-hindi text-3xl text-[#FFFDF9]">आपकी उपस्थिति हमारे उत्सव को खास बनाएगी</h2>
+        
+        <p class="mt-6 font-cinzel text-3xl text-gold-shimmer font-medium">Ashish Yadav &amp; Shweta Yadav</p>
+
+        <!-- RSVP BUTTON -->
+        <div class="mt-8">
+            <a href="https://wa.me/?text=I%20will%20be%20attending%20the%20Engagement%20of%20Ashish%20and%20Shweta!" target="_blank" class="inline-flex items-center gap-2 rounded-full border border-[#25D366] bg-[#25D366]/10 px-6 py-2.5 text-sm font-bold text-[#25D366] hover:bg-[#25D366] hover:text-white transition">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
+                RSVP via WhatsApp
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // LANGUAGE TOGGLE
+        function setLanguage(lang) {
+            document.body.className = `lang-${lang}`;
+            
+            const enBtn = document.getElementById('lang-en-btn');
+            const hiBtn = document.getElementById('lang-hi-btn');
+            
+            if(lang === 'english') {
+                enBtn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-[#D4AF37] text-[#230B11]";
+                hiBtn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-[#F3E5AB] hover:bg-white/10";
+            } else {
+                hiBtn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all bg-[#D4AF37] text-[#230B11]";
+                enBtn.className = "px-3 py-1 rounded-full text-xs font-bold transition-all text-[#F3E5AB] hover:bg-white/10";
+            }
+        }
+
+        // GLOBAL AUDIO STATE & ICONS UPDATER
+        let isAudioPlaying = false;
+        function updateIcons() {
+            const iconOn = document.getElementById('music-icon-on');
+            const iconOff = document.getElementById('music-icon-off');
+            if (isAudioPlaying) {
+                iconOn.classList.remove('hidden');
+                iconOff.classList.add('hidden');
+            } else {
+                iconOn.classList.add('hidden');
+                iconOff.classList.remove('hidden');
+            }
+        }
+
+        // FIRST INTERACTION TO START BGM
+        let firstInteractionDone = false;
+        function handleFirstInteraction(e) {
+            if (firstInteractionDone) return;
+            
+            // If they clicked the music toggle button, let toggleMusic handle it
+            if (e && e.target && e.target.closest('#music-btn')) return;
+
+            firstInteractionDone = true;
+            const audio = document.getElementById('bgMusic');
+            if (audio.paused) {
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isAudioPlaying = true;
+                        updateIcons();
+                    }).catch(err => console.log("Autoplay blocked:", err));
+                }
+            }
+            document.body.removeEventListener('click', handleFirstInteraction);
+            document.body.removeEventListener('touchstart', handleFirstInteraction);
+        }
+        document.body.addEventListener('click', handleFirstInteraction);
+        document.body.addEventListener('touchstart', handleFirstInteraction);
+
+        // MUSIC TOGGLE
+        function toggleMusic() {
+            firstInteractionDone = true; // Prevents global listener from overriding
+            const audio = document.getElementById('bgMusic');
+            
+            if (audio.paused) {
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isAudioPlaying = true;
+                        updateIcons();
+                    }).catch(error => {
+                        console.log("Audio playback prevented (file missing or blocked):", error);
+                        isAudioPlaying = false;
+                        updateIcons();
+                    });
+                } else {
+                    isAudioPlaying = true;
+                    updateIcons();
+                }
+            } else {
+                audio.pause();
+                isAudioPlaying = false;
+                updateIcons();
+            }
+        }
+
+        // ENVELOPE LOGIC
+        let hasOpened = false;
+        function openEnvelope() {
+            if(hasOpened) return;
+            hasOpened = true;
+            firstInteractionDone = true;
+
+            const audio = document.getElementById('bgMusic');
+            
+            // PLAY IMMEDIATELY ON CLICK TO GAIN BROWSER AUDIO CONTEXT
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    isAudioPlaying = true;
+                    updateIcons();
+                }).catch(e => {
+                    console.log("Audio play blocked by browser or file missing:", e);
+                    isAudioPlaying = false;
+                    updateIcons();
+                });
+            }
+            
+            document.getElementById('open-cta').style.display = 'none';
+            document.getElementById('top-flap').classList.add('flap-rotated-open');
+            document.getElementById('wax-seal').style.transform = 'scale(0)';
+            document.getElementById('envelope-wrapper').classList.remove('envelope-hover-float');
+
+            setTimeout(() => { document.getElementById('invitation-card').classList.add('card-stage-slide-up'); }, 600);
+            
+            setTimeout(() => { 
+                document.getElementById('invitation-card').classList.replace('card-stage-slide-up', 'card-stage-forward');
+                document.getElementById('gatefold-left').classList.add('gatefold-open');
+                document.getElementById('gatefold-right').classList.add('gatefold-open');
+                document.getElementById('envelope-wrapper').classList.add('envelope-opened-shift');
+            }, 1400);
+
+            setTimeout(() => {
+                // JUMP TO 8 SECONDS ONCE FULLY OPENED
+                if (isAudioPlaying) {
+                    try {
+                        audio.currentTime = 8;
+                    } catch (e) {
+                        console.log("Audio seeking not supported yet:", e);
+                    }
+                }
+
+                // REVEAL OTHER SECTIONS
+                document.querySelectorAll('section.hidden, footer.hidden').forEach(el => {
+                    el.classList.remove('hidden');
+                });
+                
+                // SCROLL DOWN
+                document.getElementById('scene-main-card').scrollIntoView({ behavior: 'smooth' });
+                
+                // INIT SCRATCH & COUNTDOWN
+                initScratchCard();
+                initCountdown();
+            }, 2500);
+        }
+
+        // SCRATCH CARD LOGIC
+        let isScratched = false;
+        function initScratchCard() {
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            // Draw Gold Foil
+            const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            grad.addColorStop(0, '#C59B27'); grad.addColorStop(0.5, '#F5E3A9'); grad.addColorStop(1, '#9E7A1C');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Text
+            ctx.fillStyle = '#4A121E';
+            ctx.font = 'bold 20px "Cinzel"';
+            ctx.textAlign = 'center';
+            ctx.fillText('SCRATCH HERE', canvas.width/2, canvas.height/2 + 7);
+
+            // Interaction
+            let isDrawing = false;
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = 45;
+            ctx.lineCap = 'round';
+
+            function scratch(x, y) {
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(x, y, 22.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                checkPercentage();
+            }
+
+            canvas.addEventListener('mousedown', e => { isDrawing = true; scratch(e.offsetX, e.offsetY); });
+            canvas.addEventListener('mousemove', e => { if(isDrawing) scratch(e.offsetX, e.offsetY); });
+            canvas.addEventListener('mouseup', () => { isDrawing = false; });
+            canvas.addEventListener('touchstart', e => { isDrawing = true; let r = canvas.getBoundingClientRect(); scratch(e.touches[0].clientX - r.left, e.touches[0].clientY - r.top); });
+            canvas.addEventListener('touchmove', e => { e.preventDefault(); if(isDrawing){ let r = canvas.getBoundingClientRect(); scratch(e.touches[0].clientX - r.left, e.touches[0].clientY - r.top); } });
+            canvas.addEventListener('touchend', () => { isDrawing = false; });
+
+            function checkPercentage() {
+                if(isScratched) return;
+                const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+                let transparent = 0;
+                for (let i = 3; i < pixels.length; i += 4) { if (pixels[i] < 128) transparent++; }
+                if (transparent / (pixels.length / 4) > 0.45) revealDate();
+            }
+        }
+
+        function revealDate() {
+            if(isScratched) return;
+            isScratched = true;
+            document.getElementById('scratch-canvas').style.opacity = '0';
+            document.getElementById('scratch-canvas').style.pointerEvents = 'none';
+            document.getElementById('reveal-btn').style.display = 'none';
+            document.getElementById('revealed-date').classList.replace('scale-95', 'scale-105');
+        }
+
+        // COUNTDOWN LOGIC
+        function initCountdown() {
+            const targetDate = new Date('2026-12-05T00:00:00').getTime();
+            
+            setInterval(() => {
+                const now = new Date().getTime();
+                const diff = targetDate - now;
+
+                if (diff < 0) return;
+
+                document.getElementById('cd-days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                document.getElementById('cd-hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById('cd-minutes').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                document.getElementById('cd-seconds').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
