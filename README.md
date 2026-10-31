@@ -9,14 +9,10 @@ This project is a static invitation website for Ashish and Shweta's engagement.
 - `Laththe_Di_Chadar_3.mp3` — background music
 
 ## Deploy to GitHub Pages
-1. Create a new GitHub repository.
-2. Push the contents of this folder to the repository root.
-3. In GitHub, open the repository and go to Settings > Pages.
-4. Set Source to `Deploy from a branch`.
-5. Choose the `main` branch and the root folder `/`.
-6. Save.
-7. GitHub will provide a public URL like:
-   `https://your-username.github.io/your-repository-name/`
+1. In the repository, open **Settings > Pages**.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+3. The workflow deploys the site automatically whenever changes are pushed to `main`.
+4. The site URL is `https://ashishkyadav.github.io/engagement-invitation-website/`.
 
 ## Local preview
 Run:
