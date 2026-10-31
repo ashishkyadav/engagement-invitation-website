@@ -12,7 +12,8 @@ This project is a static invitation website for Ashish and Shweta's engagement.
 1. In the repository, open **Settings > Pages**.
 2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
 3. The workflow deploys the site automatically whenever changes are pushed to `main`.
-4. The site URL is `https://ashishkyadav.github.io/engagement-invitation-website/`.
+4. If a previous deployment failed before Pages was enabled, push a new commit or rerun **Deploy static site to GitHub Pages** from the [Actions tab](https://github.com/ashishkyadav/engagement-invitation-website/actions/workflows/pages.yml).
+5. The site URL is `https://ashishkyadav.github.io/engagement-invitation-website/`.
 
 ## Local preview
 Run:
